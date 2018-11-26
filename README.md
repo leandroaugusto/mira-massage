@@ -8,7 +8,7 @@ Project to create an app to React Native studies.
 - [Node](https://nodejs.org/en/)
 - [Yarn](https://yarnpkg.com/en/) or [npm](https://www.npmjs.com/)
 
-We recomnended use [nvm](https://github.com/creationix/nvm) to manage Node versions
+We recommended use [nvm](https://github.com/creationix/nvm) to manage Node versions
 
 ## To start
 
