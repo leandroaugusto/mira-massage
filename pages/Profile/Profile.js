@@ -1,7 +1,15 @@
 // vendor
 import React, { Component } from 'react';
-import { Text, AsyncStorage, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  AsyncStorage,
+  TouchableOpacity,
+  CameraRoll,
+  PermissionsAndroid
+} from 'react-native';
 import { shape, func } from 'prop-types';
+import { Avatar } from 'react-native-elements';
 
 // local
 import styles from './Profile.style';
@@ -27,10 +35,15 @@ export default class Profile extends Component {
     }).isRequired
   };
 
-  componentDidMount() {
+  state = {
+    photos: null
+  };
+
+  async componentDidMount() {
     const {
       navigation: { setParams }
     } = this.props;
+    await this.requestCameraPermission();
     setParams({ logout: this._signOutAsync });
   }
 
@@ -42,7 +55,58 @@ export default class Profile extends Component {
     navigate('Auth');
   };
 
+  _handleChangePhoto = () => {
+    CameraRoll.getPhotos({
+      first: 4,
+      assetType: 'Photos'
+    })
+      .then(r => this.setState({ photos: r.edge }))
+      .catch(e => console.log('Error loading images', e));
+  };
+
+  requestCameraPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+        {
+          title: 'Permissão para acesso às suas fotos',
+          message:
+            'O aplicativo precisa de sua permissão ' +
+            'para acesso às suas fotos.'
+        }
+      );
+
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('You can access the camera roll');
+      } else {
+        console.log('Camera roll permission denied');
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+
   render() {
-    return <Text>PROFILE SCREEN</Text>;
+    console.log('PHOTOS', this.state.photos);
+    return (
+      <View style={styles.container}>
+        <Avatar
+          xlarge
+          rounded
+          title="LC"
+          activeOpacity={0.8}
+          onPress={this._handleChangePhoto}
+        />
+
+        <TouchableOpacity
+          onPress={this._handleChangePhoto}
+          style={styles.btnChange}
+        >
+          <Text style={{ ...styles.btnText, ...styles.btnSize }}>
+            Alterar foto
+          </Text>
+        </TouchableOpacity>
+      </View>
+    );
   }
 }
