@@ -5,11 +5,11 @@ import {
   Text,
   AsyncStorage,
   TouchableOpacity,
-  CameraRoll,
-  PermissionsAndroid
+  ActivityIndicator
 } from 'react-native';
 import { shape, func } from 'prop-types';
 import { Avatar } from 'react-native-elements';
+import { Permissions, ImagePicker } from 'expo';
 
 // local
 import styles from './Profile.style';
@@ -36,67 +36,90 @@ export default class Profile extends Component {
   };
 
   state = {
-    photos: null
+    hasCameraPermission: null,
+    isLoading: true,
+    imageUri: null,
+    error: null
   };
 
   async componentDidMount() {
     const {
       navigation: { setParams }
     } = this.props;
-    await this.requestCameraPermission();
+    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+
+    await this._getStoredData();
+    this.setState({ hasCameraPermission: status === 'granted' });
     setParams({ logout: this._signOutAsync });
   }
+
+  _getStoredData = async () => {
+    try {
+      const imageUri = await AsyncStorage.getItem('profile_photo');
+      this.setState({ isLoading: false });
+      if (imageUri) this.setState({ imageUri });
+    } catch (e) {
+      this.setState({ error: e.message, isLoading: false });
+    }
+  };
+
+  _storeData = async imageUri => {
+    try {
+      await AsyncStorage.setItem('profile_photo', imageUri);
+    } catch (e) {
+      this.setState({ error: e.message });
+    }
+  };
 
   _signOutAsync = async () => {
     const {
       navigation: { navigate }
     } = this.props;
-    await AsyncStorage.clear();
+    await AsyncStorage.clear(); // removeItem('token')
     navigate('Auth');
   };
 
-  _handleChangePhoto = () => {
-    CameraRoll.getPhotos({
-      first: 4,
-      assetType: 'Photos'
-    })
-      .then(r => this.setState({ photos: r.edge }))
-      .catch(e => console.log('Error loading images', e));
-  };
+  _handleChangePhoto = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [4, 4]
+    });
 
-  requestCameraPermission = async () => {
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-        {
-          title: 'Permissão para acesso às suas fotos',
-          message:
-            'O aplicativo precisa de sua permissão ' +
-            'para acesso às suas fotos.'
-        }
-      );
-
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log('You can access the camera roll');
-      } else {
-        console.log('Camera roll permission denied');
-      }
-    } catch (err) {
-      console.warn(err);
+    if (!result.cancelled) {
+      await this._storeData(result.uri);
+      this.setState({ imageUri: result.uri });
     }
   };
 
+  renderAvatar() {
+    const { imageUri, isLoading } = this.state;
+    let customProp = {};
+
+    if (isLoading) {
+      customProp = { component: () => <ActivityIndicator size="small" /> };
+    } else if (imageUri) {
+      customProp = { source: { uri: imageUri } };
+    } else {
+      customProp = { title: 'LC' };
+    }
+
+    console.log('AVATAR', customProp);
+
+    return (
+      <Avatar
+        xlarge
+        rounded
+        activeOpacity={0.8}
+        onPress={this._handleChangePhoto}
+        {...customProp}
+      />
+    );
+  }
+
   render() {
-    console.log('PHOTOS', this.state.photos);
     return (
       <View style={styles.container}>
-        <Avatar
-          xlarge
-          rounded
-          title="LC"
-          activeOpacity={0.8}
-          onPress={this._handleChangePhoto}
-        />
+        {this.renderAvatar()}
 
         <TouchableOpacity
           onPress={this._handleChangePhoto}
