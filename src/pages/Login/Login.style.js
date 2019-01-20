@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors } from '../../utils';
+import { colors } from 'utils';
 
 const styles = StyleSheet.create({
   container: {
@@ -16,15 +16,16 @@ const styles = StyleSheet.create({
   },
   error: {
     color: colors.red,
-    textAlign: 'center'
+    textAlign: 'center',
+    borderColor: colors.red,
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingVertical: 8,
+    marginVertical: 8
   },
   btn: {
-    padding: 10,
-    alignItems: 'center',
     marginTop: 40,
-    marginBottom: 5,
-    borderRadius: 5,
-    backgroundColor: colors.blue
+    marginBottom: 5
   }
 });
 

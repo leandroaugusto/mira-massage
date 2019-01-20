@@ -1,26 +1,17 @@
 // vendor
 import React from 'react';
-import { string, func } from 'prop-types';
+import { string, func, objectOf, oneOfType, number } from 'prop-types';
 import { TextInput } from 'react-native';
 
 // local
-import { colors } from '../../utils';
+import { colors } from 'utils';
 import styles from './Input.style';
 
-const Input = ({
-  value,
-  onChange,
-  selectionColor,
-  underlineColorAndroid,
-  ...props
-}) => {
+const Input = ({ onChange, style, ...props }) => {
   return (
     <TextInput
-      style={styles.input}
-      selectionColor={selectionColor}
-      underlineColorAndroid={underlineColorAndroid}
+      style={[styles.input, style]}
       onChangeText={onChange}
-      value={value}
       {...props}
     />
   );
@@ -30,12 +21,14 @@ Input.propTypes = {
   value: string.isRequired,
   onChange: func.isRequired,
   underlineColorAndroid: string,
-  selectionColor: string
+  selectionColor: string,
+  style: objectOf(oneOfType([string, number]))
 };
 
 Input.defaultProps = {
   selectionColor: colors.lightgray,
-  underlineColorAndroid: colors.blue
+  underlineColorAndroid: colors.blue,
+  style: {}
 };
 
 export default Input;

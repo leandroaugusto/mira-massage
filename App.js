@@ -8,7 +8,7 @@ import {
 import { ActivityIndicator } from 'react-native';
 
 // local
-import { Login, Profile } from './pages';
+import { Login, Profile } from 'pages';
 
 const AuthStack = createStackNavigator({ Login: Login });
 const AppStack = createStackNavigator({ Profile: Profile });

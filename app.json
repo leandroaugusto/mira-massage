@@ -6,7 +6,6 @@
     "privacy": "public",
     "sdkVersion": "31.0.0",
     "platforms": ["ios", "android"],
-    "githubUrl": "https://github.com/leandroaugusto/mira-massage",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -22,9 +21,11 @@
     "ios": {
       "supportsTablet": true
     },
+    "githubUrl": "https://github.com/leandroaugusto/mira-massage",
     "android": {
       "permissions": [
         "CAMERA",
+        "CAMERA_ROLL",
         "READ_EXTERNAL_STORAGE",
         "WRITE_EXTERNAL_STORAGE"
       ]

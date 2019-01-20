@@ -1149,6 +1149,17 @@ babel-plugin-module-resolver@^3.1.1:
     reselect "^3.0.1"
     resolve "^1.4.0"
 
+babel-plugin-module-resolver@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/babel-plugin-module-resolver/-/babel-plugin-module-resolver-3.1.2.tgz#5d4bd3572eb1d1d4c7ca37bd53de8ec82d251dcb"
+  integrity sha512-OiDI8VKCp8zcjhbp/QwqZ5MliRTHp+Fv8tO2IJYiCl1B18/4t8ZCVhm90/8JDe+Zu4Th/DUxeLCHws8kbkVUZQ==
+  dependencies:
+    find-babel-config "^1.1.0"
+    glob "^7.1.2"
+    pkg-up "^2.0.0"
+    reselect "^3.0.1"
+    resolve "^1.4.0"
+
 babel-plugin-syntax-class-properties@^6.8.0:
   version "6.13.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-syntax-class-properties/-/babel-plugin-syntax-class-properties-6.13.0.tgz#d7eb23b79a317f8543962c505b827c7d6cac27de"

@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native';
-import { colors } from '../../utils';
 
 const styles = StyleSheet.create({
   container: {
@@ -8,23 +7,18 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   btnChange: {
-    backgroundColor: colors.purple,
-    borderRadius: 5,
     padding: 10,
     marginTop: 15
   },
   logout: {
-    backgroundColor: colors.blue,
-    padding: 10,
-    width: 60,
-    marginRight: 10,
-    alignItems: 'center'
+    marginRight: 10
   },
-  btnText: {
-    color: colors.white
+  btnWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
-  btnSize: {
-    fontSize: 18
+  btnPhotos: {
+    width: 130
   }
 });
 

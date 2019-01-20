@@ -1,19 +1,12 @@
 // vendor
 import React, { Component } from 'react';
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  AsyncStorage,
-  ActivityIndicator
-} from 'react-native';
+import { Text, View, AsyncStorage } from 'react-native';
 import { isEmpty } from 'lodash';
 import { shape, func } from 'prop-types';
 
 // local
-import { login } from '../../services';
-import { colors } from '../../utils';
-import { Input } from '../../components';
+import { login } from 'services';
+import { Input, Button } from 'components';
 import styles from './Login.style';
 
 export default class Login extends Component {
@@ -42,7 +35,7 @@ export default class Login extends Component {
     }
   };
 
-  onSubmit = async () => {
+  _onSubmit = async () => {
     const { email, password } = this.state;
     const {
       navigation: { navigate }
@@ -78,17 +71,12 @@ export default class Login extends Component {
             secureTextEntry
           />
 
-          <TouchableOpacity
-            disabled={isLoading}
+          <Button
+            loading={isLoading}
+            title="Entrar"
+            onPress={this._onSubmit}
             style={styles.btn}
-            onPress={this.onSubmit}
-          >
-            {isLoading ? (
-              <ActivityIndicator size="small" color={colors.white} />
-            ) : (
-              <Text style={{ color: colors.white }}>Entrar</Text>
-            )}
-          </TouchableOpacity>
+          />
         </View>
       </View>
     );
