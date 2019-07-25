@@ -9,8 +9,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.blackAlpha
   },
   modalContainer: {
-    width: 320,
-    height: 250,
     padding: 20,
     borderRadius: 5,
     justifyContent: 'space-between',

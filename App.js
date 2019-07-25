@@ -4,6 +4,7 @@ import {
   createSwitchNavigator,
   createStackNavigator,
   createAppContainer
+  // createDrawerNavigator
 } from 'react-navigation';
 import { ActivityIndicator } from 'react-native';
 

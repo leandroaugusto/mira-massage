@@ -12,6 +12,7 @@ import styles from './Profile.style';
 export default class Profile extends Component {
   static navigationOptions = ({ navigation }) => ({
     title: 'Profile',
+    drawerLabel: 'Profile',
     headerRight: (
       <Button
         onPress={navigation.getParam('logout')}
