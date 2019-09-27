@@ -1,8 +1,9 @@
 // vendor
 import React, { Component } from 'react';
-import { View, AsyncStorage } from 'react-native';
+import { View, AsyncStorage, Text } from 'react-native';
 import { shape, func } from 'prop-types';
-import { Permissions, ImagePicker } from 'expo';
+import * as ImagePicker from 'expo-image-picker';
+import * as Permissions from 'expo-permissions';
 
 // local
 import { Avatar, Button, Modal } from 'components';
@@ -47,11 +48,13 @@ export default class Profile extends Component {
   }
 
   get showModal() {
-    return this.state.showModal;
+    const { showModal } = this.state;
+    return showModal;
   }
 
   get imageUri() {
-    return this.state.imageUri;
+    const { imageUri } = this.state;
+    return imageUri;
   }
 
   _getStoredImageUri = async () => {
@@ -103,6 +106,7 @@ export default class Profile extends Component {
   }
 
   renderModal() {
+    const { error } = this.state;
     return (
       <Modal visible={this.showModal}>
         <View style={styles.btnWrapper}>
@@ -117,6 +121,9 @@ export default class Profile extends Component {
             onPress={() => this.handleChangePhoto('launchImageLibraryAsync')}
           />
         </View>
+        {error && (
+          <Text>{error}</Text>
+        )}
         {this.imageUri && (
           <Button
             title="Excluir foto"
